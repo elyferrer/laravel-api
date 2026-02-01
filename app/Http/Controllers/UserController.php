@@ -16,7 +16,9 @@ class UserController extends Controller
 
         $token = Auth::user()->createToken('API Token')->plainTextToken;
 
-        return response()->json(['token' => $token]);
+        $cookie = cookie('AUTH-TOKEN', $token, 60 * 24, null, null, true, true, false, 'Lax');
+
+        return response()->withCookie($cookie);
     }
 
     public function register(Request $request) 
